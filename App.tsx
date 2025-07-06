@@ -16,6 +16,7 @@ import ProfilePage from './pages/ProfilePage';
 import { GoogleGenAI } from '@google/genai';
 import { ScannedProductDetails, Product } from './types';
 import { products, categories } from './constants';
+import Leaderboard from './components/LeaderBoard';
 
 // A utility function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -287,6 +288,8 @@ const AppShell = () => {
         return <RegisterPage navigate={navigate} />;
       case '/profile':
         return <ProfilePage navigate={navigate} />;
+      case '/leaderboard':
+        return <Leaderboard  />;
       default:
         return <HomePage onProductSelect={handleScanSuccess} />;
     }

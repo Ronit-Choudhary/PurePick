@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { LocationIcon, ChevronDownIcon, SearchIcon, CartIcon, UserIcon, QrCodeIcon } from './Icons';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
+import { TrophyIcon } from 'lucide-react';
 
 interface HeaderProps {
   onCartClick: () => void;
@@ -101,6 +103,14 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) =
                <button onClick={onScanClick} className="p-2 rounded-full text-gray-700 hover:bg-gray-100 transition-colors" aria-label="Scan product">
                   <QrCodeIcon className="h-6 w-6"/>
                </button>
+              {/* Leaderboard */}
+              <button onClick={() => navigate('/leaderboard')} className="flex items-center bg-white text-blinkit-green border border-blinkit-green px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green hover:text-white transition-colors duration-200 relative">
+                <TrophyIcon className="h-5 w-5 mr-2" />
+                <span>Leaderboard</span>
+                <span className="absolute -top-2 -right-2 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  #{3}
+                </span>
+              </button>
               <button
                 onClick={onCartClick}
                 className="flex items-center bg-blinkit-green text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green-dark transition-colors duration-200 relative"
