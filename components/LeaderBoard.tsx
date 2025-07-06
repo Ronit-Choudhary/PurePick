@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/badge';
-import { LeaderboardEntry } from '@/types/gamification';
-import { db } from '@/lib/firebase';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
+import { Badge } from '../components/ui/badge';
+import { LeaderboardEntry } from '../types/gamification';
+import { db } from '../lib/firebase';
 import { Trophy, Medal, Award } from 'lucide-react';
 
 export default function Leaderboard() {

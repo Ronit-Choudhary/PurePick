@@ -1,20 +1,22 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { LocationIcon, ChevronDownIcon, SearchIcon, CartIcon, UserIcon, QrCodeIcon } from './Icons';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
+import { useStore } from '../hooks/useStore';
 import { TrophyIcon } from 'lucide-react';
 
 interface HeaderProps {
   onCartClick: () => void;
   onScanClick: () => void;
+  onLocationClick: () => void;
   navigate: (path: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) => {
+const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationClick, navigate }) => {
   const { cartCount } = useCart();
   const { isAuthenticated, user } = useAuth();
+  const { selectedStore } = useStore();
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -34,7 +36,6 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) =
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Dispatch a custom event that the homepage can listen to
       window.dispatchEvent(new CustomEvent('app-search', { detail: searchQuery }));
       sessionStorage.setItem('searchQuery', searchQuery);
       navigate('/');
@@ -64,12 +65,12 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) =
             </a>
 
             {/* Location */}
-            <div className="hidden lg:flex items-center ml-12 border-l pl-8">
-                <LocationIcon className="h-6 w-6 text-gray-800" />
+            <div onClick={onLocationClick} className="hidden lg:flex items-center ml-12 border-l pl-8 cursor-pointer group">
+                <LocationIcon className="h-6 w-6 text-gray-800 group-hover:text-blinkit-green" />
                 <div className="ml-3">
-                    <p className="font-bold text-sm text-gray-800">Delivery in 10 minutes</p>
+                    <p className="font-bold text-sm text-gray-800 group-hover:text-blinkit-green transition-colors">{selectedStore.name}</p>
                     <p className="text-xs text-gray-500 flex items-center">
-                        Gurgaon, Haryana, India <ChevronDownIcon className="h-4 w-4 ml-1" />
+                        {selectedStore.address} <ChevronDownIcon className="h-4 w-4 ml-1" />
                     </p>
                 </div>
             </div>
@@ -93,24 +94,16 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) =
             {/* Auth, Scan and Cart */}
             <div className="flex items-center ml-4 space-x-4">
                {isAuthenticated ? (
-                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-semibold text-gray-700 hover:text-blinkit-green">
+                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-semibold bg-blinkit-green text-white hover:bg-blinkit-green-dark px-2 py-2 rounded-lg">
                     <UserIcon className="h-6 w-6 mr-1"/>
                     {user?.name?.split(' ')[0]}
                  </a>
                ) : (
                 <a href="/login" onClick={(e) => handleNavClick(e, '/login')} className="text-sm font-semibold text-gray-700 hover:text-blinkit-green">Login</a>
                )}
-               <button onClick={onScanClick} className="p-2 rounded-full text-gray-700 hover:bg-gray-100 transition-colors" aria-label="Scan product">
+               <button onClick={onScanClick} className="p-2 rounded-full bg-blinkit-green text-white hover:bg-blinkit-green-dark transition-colors" aria-label="Scan product">
                   <QrCodeIcon className="h-6 w-6"/>
                </button>
-              {/* Leaderboard */}
-              <button onClick={() => navigate('/leaderboard')} className="flex items-center bg-white text-blinkit-green border border-blinkit-green px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green hover:text-white transition-colors duration-200 relative">
-                <TrophyIcon className="h-5 w-5 mr-2" />
-                <span>Leaderboard</span>
-                <span className="absolute -top-2 -right-2 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                  #{3}
-                </span>
-              </button>
               <button
                 onClick={onCartClick}
                 className="flex items-center bg-blinkit-green text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green-dark transition-colors duration-200 relative"
@@ -122,6 +115,14 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, navigate }) =
                     {cartCount}
                   </span>
                 )}
+              </button>
+              {/* Leaderboard */}
+              <button onClick={() => navigate('/leaderboard')} className="flex items-center bg-blinkit-green text-white hover:bg-blinkit-green-dark border border-blinkit-green px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green hover:text-white transition-colors duration-200 relative">
+                <TrophyIcon className="h-5 w-5 mr-2" />
+                <span>Leaderboard</span>
+                <span className="absolute -top-2 -right-2 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  #{3}
+                </span>
               </button>
             </div>
           </div>

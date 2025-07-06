@@ -1,6 +1,7 @@
 
-import React, { createContext, useState, useMemo, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useMemo, ReactNode, useRef } from 'react';
 import { CartItem, Product } from '../types';
+import { useStore } from '../hooks/useStore';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -11,12 +12,27 @@ interface CartContextType {
   getItemQuantity: (productId: string) => number;
   cartTotal: number;
   cartCount: number;
+  avgEcoScore: number;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { selectedStore } = useStore();
+  const storeIdRef = useRef(selectedStore.id);
+
+  useEffect(() => {
+    // This effect handles automatic cart clearing if the store changes
+    // *after* a modal has already received confirmation.
+    if (storeIdRef.current !== selectedStore.id) {
+        if (cartItems.length > 0) {
+            clearCart();
+        }
+        storeIdRef.current = selectedStore.id;
+    }
+  }, [selectedStore]);
+
 
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
@@ -63,6 +79,12 @@ export const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     return cartItems.reduce((count, item) => count + item.quantity, 0);
   }, [cartItems]);
 
+  const avgEcoScore = useMemo(() => {
+    if (cartCount === 0) return 0;
+    const totalEcoScore = cartItems.reduce((sum, item) => sum + (item.ecologicalScore * item.quantity), 0);
+    return totalEcoScore / cartCount;
+  }, [cartItems, cartCount]);
+
   const value = {
     cartItems,
     addToCart,
@@ -72,6 +94,7 @@ export const CartProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     getItemQuantity,
     cartTotal,
     cartCount,
+    avgEcoScore,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

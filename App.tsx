@@ -1,13 +1,20 @@
 
+
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import ScannerModal from './components/ScannerModal';
+import LocationModal from './components/LocationModal';
+import AddressModal from './components/AddressModal';
+import AddressSelectionModal from './components/AddressSelectionModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { StoreProvider } from './context/StoreContext';
 import { useAuth } from './hooks/useAuth';
+import { useStore } from './hooks/useStore';
+
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -15,8 +22,17 @@ import ProfilePage from './pages/ProfilePage';
 
 import { GoogleGenAI } from '@google/genai';
 import { ScannedProductDetails, Product } from './types';
-import { products, categories } from './constants';
+import { categories as allCategories } from './constants';
 import Leaderboard from './components/LeaderBoard';
+
+
+const API_KEY = process.env.API_KEY;
+
+// A more robust check. An actual key is a long string.
+const IS_API_KEY_VALID = typeof API_KEY === 'string' && API_KEY.trim().length > 10;
+
+const ai = IS_API_KEY_VALID ? new GoogleGenAI({ apiKey: API_KEY }) : null;
+
 
 // A utility function to shuffle an array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -38,20 +54,28 @@ const navigate = (path: string) => {
 // The main shell of the application, including routing
 const AppShell = () => {
   const [route, setRoute] = useState(window.location.pathname);
-  const [isCartOpen, setCartOpen] = useState(false);
   const { isAuthenticated, isAuthLoading } = useAuth();
+  const { products } = useStore(); // Get products from the selected store
   
-  // State for scanner and product detail modal
+  // State for modals
+  const [isCartOpen, setCartOpen] = useState(false);
   const [isScannerOpen, setScannerOpen] = useState(false);
+  const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isDetailModalOpen, setDetailModalOpen] = useState(false);
+  const [isAddressModalOpen, setAddressModalOpen] = useState(false);
+  const [isAddressSelectionModalOpen, setAddressSelectionModalOpen] = useState(false);
+
   const [scannedProductDetails, setScannedProductDetails] = useState<ScannedProductDetails | null>(null);
   const [scannedBarcode, setScannedBarcode] = useState<string | null>(null);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
 
-  const ai = new GoogleGenAI({ apiKey:process.env.GEMINI_API_KEY });
-
   useEffect(() => {
+    // Show location modal on first visit
+    if (!localStorage.getItem('blinkit_store_id')) {
+        setLocationModalOpen(true);
+    }
+
     const onLocationChange = () => {
       setRoute(window.location.pathname);
     };
@@ -132,16 +156,21 @@ const AppShell = () => {
     setDetailError(null);
     setScannedProductDetails(null);
     setScannedBarcode(decodedText);
+    
+    if (!ai) {
+        console.error("API Key is missing. Cannot perform AI-based product analysis.");
+        setDetailError("The AI functionality is not configured. Please ensure the API key is set up correctly.");
+        setIsLoadingDetails(false);
+        return;
+    }
 
-    // --- Start of new local-first logic ---
     const knownProduct = products.find(p => p.barcode === decodedText);
 
     if (knownProduct) {
-      // Product found in our catalog, no AI call needed.
       const details: ScannedProductDetails = {
         productName: knownProduct.name,
         brand: knownProduct.brand,
-        ingredients: knownProduct.description, // Use description as a proxy for ingredients
+        ingredients: knownProduct.description, 
         isFoodProduct: knownProduct.nutritionalScore !== null,
         category: knownProduct.category,
         ecologicalScore: knownProduct.ecologicalScore,
@@ -150,26 +179,21 @@ const AppShell = () => {
         nutritionalJustification: knownProduct.nutritionalScore !== null
           ? `This score reflects the product's nutritional profile, including factors like sugar, fat, and vitamin content, relative to other items in its category.`
           : null,
-        recommendations: [], // This will be populated next
+        recommendations: [],
       };
 
-      // Run local recommendation engine
       details.recommendations = getRecommendations(details, decodedText);
       
-      // Use a brief timeout to allow the modal to animate in smoothly
       setTimeout(() => {
         setScannedProductDetails(details);
         setIsLoadingDetails(false);
       }, 300);
 
-      return; // End execution here for known products
+      return;
     }
-    // --- End of new local-first logic ---
 
-
-    // --- Fallback to AI for unknown barcodes ---
     try {
-      const categoryNames = categories.map(c => c.name);
+      const categoryNames = allCategories.map(c => c.name);
       const prompt = `
         You are a product analysis API. You will receive a product barcode. Your only job is to return a single, valid JSON object with the requested information. Do not add any commentary, explanations, or markdown formatting like \`\`\`json.
 
@@ -248,10 +272,8 @@ const AppShell = () => {
       }
       
       try {
-        // Sanitize the JSON string to remove trailing commas which are not valid in standard JSON.
         const sanitizedJsonStr = jsonStr.replace(/,(?=\s*?[\}\]])/g, '');
         
-        // We need to add an empty recommendations array for type safety before parsing
         const parsedJson = JSON.parse(sanitizedJsonStr);
         const parsedDetails: ScannedProductDetails = { ...parsedJson, recommendations: [] };
 
@@ -287,9 +309,9 @@ const AppShell = () => {
       case '/register':
         return <RegisterPage navigate={navigate} />;
       case '/profile':
-        return <ProfilePage navigate={navigate} />;
+        return <ProfilePage navigate={navigate} onAddAddressClick={() => setAddressModalOpen(true)} />;
       case '/leaderboard':
-        return <Leaderboard  />;
+        return <Leaderboard/>;
       default:
         return <HomePage onProductSelect={handleScanSuccess} />;
     }
@@ -299,9 +321,24 @@ const AppShell = () => {
 
   return (
     <div className="bg-white min-h-screen font-sans flex flex-col">
-      {showHeaderAndFooter && <Header onCartClick={() => setCartOpen(true)} onScanClick={() => setScannerOpen(true)} navigate={navigate} />}
-      <CartDrawer isOpen={isCartOpen} onClose={() => setCartOpen(false)} navigate={navigate}/>
+      {showHeaderAndFooter && <Header onCartClick={() => setCartOpen(true)} onScanClick={() => setScannerOpen(true)} onLocationClick={() => setLocationModalOpen(true)} navigate={navigate} />}
+      <CartDrawer 
+        isOpen={isCartOpen} 
+        onClose={() => setCartOpen(false)} 
+        navigate={navigate}
+        onSelectAddressClick={() => setAddressSelectionModalOpen(true)}
+      />
       <ScannerModal isOpen={isScannerOpen} onClose={() => setScannerOpen(false)} onScanSuccess={handleScanSuccess} />
+      <LocationModal isOpen={isLocationModalOpen} onClose={() => setLocationModalOpen(false)} />
+      <AddressModal isOpen={isAddressModalOpen} onClose={() => setAddressModalOpen(false)} />
+      <AddressSelectionModal 
+        isOpen={isAddressSelectionModalOpen} 
+        onClose={() => setAddressSelectionModalOpen(false)}
+        onAddNewAddress={() => {
+            setAddressSelectionModalOpen(false);
+            setAddressModalOpen(true);
+        }}
+       />
       <ProductDetailModal 
         isOpen={isDetailModalOpen} 
         onClose={closeDetailModal}
@@ -320,11 +357,56 @@ const AppShell = () => {
 
 
 export function App() {
+   if (!IS_API_KEY_VALID) {
+    return (
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+            <div className="w-full max-w-2xl bg-white rounded-lg shadow-xl p-8">
+                <div className="flex items-center text-red-600 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mr-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <h1 className="text-3xl font-bold">Configuration Error</h1>
+                </div>
+                <div className="text-gray-700 space-y-4">
+                    <p className="text-lg">
+                        The <strong className="font-semibold text-gray-900">Google Gemini API Key</strong> is not configured.
+                    </p>
+                    <p>
+                        This application requires a valid API key to function correctly. Please follow these steps to set it up:
+                    </p>
+                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h2 className="font-semibold text-lg mb-2 text-gray-800">Setup Instructions</h2>
+                        <ol className="list-decimal list-inside space-y-3">
+                            <li>
+                                In the main project folder (the one with <code>package.json</code>), create a new file named <code>.env</code>.
+                            </li>
+                            <li>
+                                Open the new <code>.env</code> file and add the following line. Be sure to replace <code>YOUR_ACTUAL_API_KEY</code> with your key from Google AI Studio.
+                                <div className="bg-gray-200 text-gray-800 font-mono p-3 rounded-md my-2">
+                                   API_KEY=YOUR_ACTUAL_API_KEY
+                                </div>
+                            </li>
+                            <li>
+                                After saving the <code>.env</code> file, you must <strong className="font-semibold">stop and restart</strong> the development server for the key to be loaded.
+                            </li>
+                        </ol>
+                    </div>
+                     <p className="text-sm text-center text-gray-500 pt-4">
+                        You can get a free API key from the <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">Google AI Studio</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+  }
+
   return (
-    <AuthProvider>
-      <CartProvider>
-        <AppShell />
-      </CartProvider>
-    </AuthProvider>
+    <StoreProvider>
+      <AuthProvider>
+        <CartProvider>
+          <AppShell />
+        </CartProvider>
+      </AuthProvider>
+    </StoreProvider>
   );
 }

@@ -1,6 +1,7 @@
 
-import { Product, Category } from './types';
+import { Store, Category } from './types';
 
+// Master list of all possible categories
 export const categories: Category[] = [
   { name: 'Fresh Food & Produce', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-3_9.png' },
   { name: 'Dairy & Eggs', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/layout-engine/2022-11/Slice-2_10.png' },
@@ -14,7 +15,8 @@ export const categories: Category[] = [
   { name: 'Baby', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/category/cms_images/icon/15_1603282232.png' },
 ];
 
-export const products: Product[] = [
+const allProducts = [
+  // This is the full list of 100 products from the previous version
   // Fresh Food & Produce (10 products)
   { id: '1', name: 'Fresh Onion', description: 'Crisp and pungent onions, a staple for any kitchen.', price: 35, weight: '1 kg', category: 'Fresh Food & Produce', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/8672_19.jpg', barcode: '1', brand: 'Local', ecologicalScore: 95, nutritionalScore: 95 },
   { id: '2', name: 'Fresh Tomato', description: 'Ripe, red, and juicy tomatoes for salads and curries.', price: 40, weight: '1 kg', category: 'Fresh Food & Produce', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/10237_13.jpg', barcode: '2', brand: 'Local', ecologicalScore: 95, nutritionalScore: 95 },
@@ -134,4 +136,31 @@ export const products: Product[] = [
   { id: '98', name: 'Sebamed Baby Rash Cream', description: 'Protective cream for preventing and soothing diaper rash.', price: 475, weight: '100 ml', category: 'Baby', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/22497_9.jpg', barcode: '4103040019738', brand: 'Sebamed', ecologicalScore: 65, nutritionalScore: null },
   { id: '99', name: 'Chicco Soft Cleansing Baby Wipes', description: 'Soft and gentle wipes for sensitive baby skin.', price: 249, weight: '2x72 pcs', category: 'Baby', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/899_9.jpg', barcode: '8058664152520', brand: 'Chicco', ecologicalScore: 70, nutritionalScore: null },
   { id: '100', name: 'Mothercare All We Know Baby Body Wash', description: 'Mild and gentle body wash for your baby.', price: 299, weight: '300 ml', category: 'Baby', imageUrl: 'https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/images/products/sliding_image/18652_7.jpg', barcode: '8904301752007', brand: 'Mothercare', ecologicalScore: 65, nutritionalScore: null }
+];
+
+// To demonstrate different stores having different items, we'll create a subset for the Kolkata store
+const kolkataProducts = allProducts.slice(0, 50).map((p, index) => {
+    // Make prices slightly different for demonstration
+    const newPrice = p.price + (index % 5);
+    return { ...p, price: newPrice };
+}).filter(p => p.category !== 'Baby' && p.category !== 'Frozen Foods'); // Let's say Kolkata doesn't stock these yet
+
+
+export const stores: Store[] = [
+  {
+    id: 'gurgaon-1',
+    name: 'Blinkit Gurgaon Central',
+    address: 'DLF Phase 4, Gurgaon, Haryana, India',
+    latitude: 28.4595,
+    longitude: 77.0266,
+    products: allProducts,
+  },
+  {
+    id: 'kolkata-1',
+    name: 'Blinkit Kolkata South',
+    address: 'Ballygunge, Kolkata, West Bengal, India',
+    latitude: 22.5726,
+    longitude: 88.3639,
+    products: kolkataProducts,
+  },
 ];

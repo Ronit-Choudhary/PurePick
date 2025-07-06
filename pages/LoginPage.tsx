@@ -35,11 +35,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-blinkit-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-                <div className="flex justify-end">
-                <button onClick={() => navigate('/')} className="p-1 rounded-full hover:bg-gray-100">
-                <XIcon className="w-6 h-6 text-gray-600" />
-                </button>
-                </div>
+                    <div className="flex justify-end">
+      <button onClick={() => navigate('/')} className="p-1 rounded-full hover:bg-gray-100">
+        <XIcon className="w-6 h-6 text-gray-600" />
+      </button>
+    </div>
                 <div className="text-center">
                     <a href="/" onClick={(e) => handleNavClick(e, '/')} className="inline-flex items-end gap-1 text-3xl font-bold text-gray-800">
                         <svg width="32" height="36" viewBox="0 0 96 108" fill="none" xmlns="http://www.w3.org/2000/svg">

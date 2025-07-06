@@ -1,10 +1,10 @@
 
-
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
+  originalPrice?: number; // Optional original price for showing discounts
   weight: string;
   category: string;
   imageUrl: string;
@@ -15,19 +15,49 @@ export interface Product {
 }
 
 export interface Category {
-  name: string;
+  name:string;
   imageUrl: string;
+}
+
+export interface Store {
+  id: string;
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  products: Product[];
 }
 
 export interface CartItem extends Product {
   quantity: number;
 }
 
+export interface Address {
+  id: string;
+  nickname: string;
+  fullAddress: string;
+  details: string; // e.g., flat number, landmark
+}
+
+export interface User {
+  name: string;
+  email: string;
+  walletBalance: number;
+  addresses: Address[];
+  selectedAddressId: string | null;
+}
+
 export interface Order {
   id: string;
   date: string;
   items: CartItem[];
-  totalAmount: number;
+  totalAmount: number; // Final amount paid by user
+  subtotal: number; // Cart total before discounts and fees
+  deliveryFee: number;
+  rewardPointsEarned: number;
+  rewardPointsRedeemed: number;
+  storeName: string; // To track which store the order was from
+  deliveryAddress: Address; // To record where the order was delivered
 }
 
 // Type for AI-generated product details and ecological score

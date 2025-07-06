@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductCarousel from '../components/ProductCarousel';
 import ProductCard from '../components/ProductCard';
-import { categories, products } from '../constants';
+import { useStore } from '../hooks/useStore';
 import { Product } from '../types';
 
 interface HomePageProps {
@@ -11,18 +11,26 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
+  const { products, categories } = useStore();
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+  // When the store's products change, reset the view
   useEffect(() => {
-    // Restore search from session on initial load
+    setFilteredProducts(products);
+    setSearchQuery('');
+    setSelectedCategory(null);
+    sessionStorage.removeItem('searchQuery');
+    window.dispatchEvent(new CustomEvent('clear-search'));
+  }, [products]);
+
+  useEffect(() => {
     const sessionSearch = sessionStorage.getItem('searchQuery');
     if (sessionSearch) {
       handleSearch(sessionSearch);
     }
     
-    // Listen for custom search events from the header
     const handleGlobalSearch = (event: CustomEvent) => {
         handleSearch(event.detail);
     };
@@ -38,7 +46,7 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
         window.removeEventListener('app-search', handleGlobalSearch as EventListener);
         window.removeEventListener('clear-search', handleClearSearch);
     }
-  }, []);
+  }, []); // Empty dependency array as we want this to run once
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -71,8 +79,8 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
     setFilteredProducts(products);
   }
 
-  const trendingProducts = products.slice(0, 10);
-  const dailyStaples = products.filter(p => p.category === "Dairy & Eggs" || p.category === "Fresh Food & Produce").slice(0, 10);
+  const trendingProducts = useMemo(() => products.slice(0, 10), [products]);
+  const dailyStaples = useMemo(() => products.filter(p => p.category === "Dairy & Eggs" || p.category === "Fresh Food & Produce").slice(0, 10), [products]);
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -100,7 +108,7 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
               {filteredProducts.map(product => (
-                <ProductCard key={product.id} product={product} onProductSelect={onProductSelect} />
+                <ProductCard key={`${product.id}-${product.price}`} product={product} onProductSelect={onProductSelect} />
               ))}
             </div>
           ) : (
