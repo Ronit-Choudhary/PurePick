@@ -89,6 +89,32 @@ const AddressCard: React.FC<{address: Address, isSelected: boolean, onSelect: ()
 const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }) => {
   const { user, logout, orders, removeAddress, selectAddress } = useAuth();
   const [activeSection, setActiveSection] = useState<ProfileSection>('profile');
+  const [editOpen, setEditOpen] = useState(false);
+  const [editName, setEditName] = useState(user?.name || '');
+  const [editPhone, setEditPhone] = useState((user as any)?.phone || '');
+  const [editGender, setEditGender] = useState((user as any)?.gender || '');
+
+  // Save edited profile to localStorage and context
+  const handleEditSave = () => {
+    if (!user) return;
+    const updatedUser = {
+      ...user,
+      name: editName,
+      phone: editPhone,
+      gender: editGender,
+    };
+    localStorage.setItem('blinkit_user', JSON.stringify(updatedUser));
+    // Also update in master list
+    try {
+      const allUsers = JSON.parse(localStorage.getItem('blinkit_users') || '[]');
+      const idx = allUsers.findIndex((u: any) => u.email === user.email);
+      if (idx > -1) {
+        allUsers[idx] = { ...allUsers[idx], ...updatedUser };
+        localStorage.setItem('blinkit_users', JSON.stringify(allUsers));
+      }
+    } catch {}
+    window.location.reload(); // Quick way to refresh context
+  };
 
   const handleLogout = () => {
     logout();
@@ -99,23 +125,77 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
     switch (activeSection) {
       case 'profile':
         return (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">My Profile</h2>
+          <div className="flex flex-col items-center justify-center min-h-[22rem]">
+            {/* Edit Profile Modal */}
+            {editOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+                <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md relative">
+                  <button onClick={() => setEditOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-xl">&times;</button>
+                  <h3 className="text-xl font-bold mb-6 text-gray-800">Edit Profile</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-500">Name</label>
-                <p className="text-lg text-gray-800">{user?.name}</p>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                      <input type="text" value={editName} onChange={e => setEditName(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                      <input type="tel" value={editPhone} onChange={e => setEditPhone(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green" placeholder="+91-XXXXXXXXXX" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                      <select value={editGender} onChange={e => setEditGender(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green">
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-3 mt-8">
+                    <button onClick={() => setEditOpen(false)} className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200">Cancel</button>
+                    <button onClick={handleEditSave} className="px-4 py-2 rounded-lg bg-blinkit-green text-white font-semibold hover:bg-blinkit-green-dark">Save</button>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-500">Email</label>
-                <p className="text-lg text-gray-800">{user?.email}</p>
+            )}
+            <div className="bg-white rounded-xl shadow-lg p-0 w-full max-w-2xl flex flex-col md:flex-row items-stretch overflow-hidden border border-gray-200">
+              {/* Avatar Section */}
+              <div className="flex flex-col items-center justify-center bg-blinkit-green/90 p-8 md:w-1/3">
+                <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center mb-3 shadow">
+                  <span className="text-4xl font-bold text-blinkit-green">{user?.name?.[0] || '?'}</span>
+                </div>
+                <span className="text-white font-semibold text-lg">My Profile</span>
               </div>
+              {/* Info Section */}
+              <div className="flex-1 flex flex-col justify-between p-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-gray-700 w-28">Full Name</span>
+                    <span className="text-gray-900">{user?.name}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-gray-700 w-28">Email</span>
+                    <span className="text-gray-900">{user?.email}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-gray-700 w-28">Phone</span>
+                    <span className="text-gray-900">{(user as any)?.phone || '+91-XXXXXXXXXX'}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-gray-700 w-28">Gender</span>
+                    <span className="text-gray-900">{(user as any)?.gender || 'Not specified'}</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mt-8">
+                  <button className="px-5 py-2 bg-blinkit-green text-white font-semibold rounded-lg hover:bg-blinkit-green-dark transition-colors shadow" onClick={() => setEditOpen(true)}>Edit Profile</button>
                <button 
                   onClick={handleLogout}
-                  className="mt-6 w-full sm:w-auto px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
+                    className="px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors shadow"
                >
                   Logout
                </button>
+                </div>
+              </div>
             </div>
           </div>
         );

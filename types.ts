@@ -37,6 +37,8 @@ export interface Address {
   nickname: string;
   fullAddress: string;
   details: string; // e.g., flat number, landmark
+  lat?: number;
+  lng?: number;
 }
 
 export interface User {
@@ -45,6 +47,8 @@ export interface User {
   walletBalance: number;
   addresses: Address[];
   selectedAddressId: string | null;
+  phone?: string;
+  gender?: string;
 }
 
 export interface Order {
