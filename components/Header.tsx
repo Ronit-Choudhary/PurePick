@@ -62,12 +62,12 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
                 <path d="M48 43V63" stroke="#0C831F" strokeWidth="4" strokeLinecap="round"/>
                 <path d="M58 53L38 53" stroke="#0C831F" strokeWidth="4" strokeLinecap="round"/>
               </svg>
-              <span className="hidden md:inline">blinkit</span>
+              <span className="hidden md:inline">PurePick</span>
             </a>
 
             {/* Location */}
             <div onClick={onLocationClick} className="hidden lg:flex items-center border-l pl-8 cursor-pointer group">
-                <LocationIcon className="h-6 w-6 text-gray-800 group-hover:text-blinkit-green" />
+                <LocationIcon className="h-6 w-6 text-green-900 group-hover:text-blinkit-green" />
                 <div className="ml-3">
                     <p className="font-bold text-sm text-gray-800 group-hover:text-blinkit-green transition-colors">{selectedStore.name}</p>
                     <p className="text-xs text-gray-500 flex items-center">
@@ -79,9 +79,9 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
           
           <div className="flex items-center justify-end flex-1 min-w-0">
             {/* Search Bar */}
-            <div className="w-full max-w-lg hidden md:block ml-10">
+            <div className="w-full max-w-lg hidden md:block ml-10 ">
               <form onSubmit={handleSearchSubmit} className="relative">
-                <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-green-900" />
                 <input
                   type="text"
                   value={searchQuery}

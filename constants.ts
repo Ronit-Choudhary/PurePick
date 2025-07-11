@@ -1371,7 +1371,7 @@ const kolkataProducts = allProducts.slice(0, 50).map((p, index) => {
 export const stores: Store[] = [
   {
     id: 'gurgaon-1',
-    name: 'Blinkit Gurgaon Central',
+    name: 'PurePick Gurgaon Central',
     address: 'DLF Phase 4, Gurgaon, Haryana, India',
     latitude: 28.4595,
     longitude: 77.0266,
@@ -1379,7 +1379,7 @@ export const stores: Store[] = [
   },
   {
     id: 'kolkata-1',
-    name: 'Blinkit Kolkata South',
+    name: 'PurePick Kolkata South',
     address: 'Ballygunge, Kolkata, West Bengal, India',
     latitude: 22.5726,
     longitude: 88.3639,

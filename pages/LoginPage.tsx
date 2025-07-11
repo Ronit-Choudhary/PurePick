@@ -49,7 +49,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
                             <path d="M48 43V63" stroke="#0C831F" strokeWidth="4" strokeLinecap="round"/>
                             <path d="M58 53L38 53" stroke="#0C831F" strokeWidth="4" strokeLinecap="round"/>
                         </svg>
-                        <span>blinkit</span>
+                        <span>PurePick</span>
                     </a>
                     <h2 className="mt-4 text-2xl font-bold text-gray-900">Login</h2>
                 </div>
