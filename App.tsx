@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,11 +12,13 @@ import { AuthProvider } from './context/AuthContext';
 import { StoreProvider } from './context/StoreContext';
 import { useAuth } from './hooks/useAuth';
 import { useStore } from './hooks/useStore';
+import { WishlistProvider } from './context/WishlistContext';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import WishlistPage from './pages/WishlistPage';
 
 import { GoogleGenAI } from '@google/genai';
 import { ScannedProductDetails, Product } from './types';
@@ -312,6 +312,8 @@ const AppShell = () => {
         return <ProfilePage navigate={navigate} onAddAddressClick={() => setAddressModalOpen(true)} />;
       case '/leaderboard':
         return <Leaderboard/>;
+      case '/wishlist':
+        return <WishlistPage onProductSelect={handleScanSuccess} />;
       default:
         return <HomePage onProductSelect={handleScanSuccess} />;
     }
@@ -404,7 +406,9 @@ export function App() {
     <StoreProvider>
       <AuthProvider>
         <CartProvider>
+          <WishlistProvider>
           <AppShell />
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </StoreProvider>

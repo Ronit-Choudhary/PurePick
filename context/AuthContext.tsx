@@ -58,13 +58,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const storedUser = localStorage.getItem('blinkit_user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
-        // Ensure all fields exist for backwards compatibility
+        // Ensure all fields exist for backwards compatibility and include extra fields
         const completeUser: User = {
             name: parsedUser.name,
             email: parsedUser.email,
             walletBalance: parsedUser.walletBalance || 0,
             addresses: parsedUser.addresses || [],
             selectedAddressId: parsedUser.selectedAddressId || null,
+            phone: parsedUser.phone || '',
+            gender: parsedUser.gender || '',
         }
         setUser(completeUser);
         loadOrders(completeUser.email);

@@ -57,8 +57,7 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
       const lowercasedQuery = query.toLowerCase();
       const results = products.filter(
         (product) =>
-          product.name.toLowerCase().includes(lowercasedQuery) ||
-          product.category.toLowerCase().includes(lowercasedQuery)
+          product.name.toLowerCase().includes(lowercasedQuery)
       );
       setFilteredProducts(results);
     }
@@ -79,7 +78,17 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
     setFilteredProducts(products);
   }
 
-  const trendingProducts = useMemo(() => products.slice(0, 10), [products]);
+  // Utility to shuffle an array
+  function getRandomProducts(arr: Product[], n: number) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, n);
+  }
+
+  const trendingProducts = useMemo(() => getRandomProducts(products, 10), [products]);
   const dailyStaples = useMemo(() => products.filter(p => p.category === "Dairy & Eggs" || p.category === "Fresh Food & Produce").slice(0, 10), [products]);
 
   return (

@@ -1,7 +1,8 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
+import { useStore } from '../hooks/useStore';
 import { XIcon, MinusIcon, PlusIcon, SparklesIcon, LocationIcon } from './Icons';
 import { CartItem, Address } from '../types';
 
@@ -58,7 +59,9 @@ interface CartDrawerProps {
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSelectAddressClick }) => {
   const { cartItems, cartTotal, cartCount, clearCart, avgEcoScore } = useCart();
   const { user, isAuthenticated, addOrder } = useAuth();
+  const { selectedStore } = useStore();
   const [applyWallet, setApplyWallet] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
   
   // As per the request, delivery fee is set to 0.
   const deliveryFee = 0;
@@ -67,6 +70,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
     if (!user || !user.selectedAddressId) return null;
     return user.addresses.find(a => a.id === user.selectedAddressId);
   }, [user]);
+
+  useEffect(() => {
+    setCheckoutError('');
+  }, [selectedAddress]);
 
   const maxRedeemable = useMemo(() => cartTotal * 0.08, [cartTotal]);
   const redeemableAmount = useMemo(() => Math.min(user?.walletBalance || 0, maxRedeemable), [user, maxRedeemable]);
@@ -90,6 +97,27 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
         alert("Please select a delivery address before placing an order.");
         return;
     }
+
+    // Delivery radius check
+    if (selectedAddress.lat == null || selectedAddress.lng == null) {
+      setCheckoutError('This address does not have location data. Please re-add it using the address form.');
+      return;
+    }
+    const storeLat = selectedStore.latitude;
+    const storeLng = selectedStore.longitude;
+    const addrLat = selectedAddress.lat;
+    const addrLng = selectedAddress.lng;
+    const R = 3958.8; // miles
+    const dLat = (addrLat - storeLat) * Math.PI / 180;
+    const dLon = (addrLng - storeLng) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(storeLat * Math.PI / 180) * Math.cos(addrLat * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    if (distance > 10) {
+      setCheckoutError('This address is outside the 10 mile delivery radius for this store. Please select another address.');
+      return;
+    }
+    setCheckoutError('');
 
     addOrder(cartItems, totalAmount, cartTotal, deliveryFee, redeemedAmount, selectedAddress);
     alert(`Order placed successfully! You've earned ₹${earnedRewards.toFixed(2)} in Eco Rewards.`);
@@ -198,6 +226,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
         )}
 
         <footer className="p-4 border-t bg-white">
+          {checkoutError && <p className="text-red-600 text-sm mb-2">{checkoutError}</p>}
             <div className="space-y-3 mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">Bill Details</h3>
                 <div className="flex justify-between text-sm">
