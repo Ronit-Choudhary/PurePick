@@ -48,12 +48,12 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
   }
 
   return (
-    <header className="sticky top-0 bg-white z-40 shadow-sm">
+    <header className="sticky top-0 bg-white z-40 shadow-sm border-b border-blinkit-gray-100">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 border-b border-gray-200">
           <div className="flex items-center">
             {/* Logo */}
-            <a href="/" onClick={(e) => handleNavClick(e, '/')} className="flex items-end gap-1 text-2xl font-bold text-gray-800">
+            <a href="/" onClick={(e) => handleNavClick(e, '/')} className="flex items-center gap-1 text-2xl font-bold text-gray-900 hover:text-blinkit-green transition-colors duration-200">
               <svg width="28" height="30" viewBox="0 0 96 108" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M48 0L95.225 26.5V79.5L48 106L0.775017 79.5V26.5L48 0Z" fill="#0C831F"/>
                 <path d="M48 10L83.825 31V75L48 96L12.175 75V31L48 10Z" fill="white"/>
@@ -65,11 +65,11 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
             </a>
 
             {/* Location */}
-            <div onClick={onLocationClick} className="hidden lg:flex items-center ml-12 border-l pl-8 cursor-pointer group">
-                <LocationIcon className="h-6 w-6 text-gray-800 group-hover:text-blinkit-green" />
+            <div onClick={onLocationClick} className="hidden lg:flex items-center ml-12 border-l border-blinkit-gray-200 pl-8 cursor-pointer group hover:bg-blinkit-gray-50 transition-colors duration-200">
+                <LocationIcon className="h-6 w-6 text-gray-800 group-hover:text-blinkit-green transition-colors duration-200" />
                 <div className="ml-3">
-                    <p className="font-bold text-sm text-gray-800 group-hover:text-blinkit-green transition-colors">{selectedStore.name}</p>
-                    <p className="text-xs text-gray-500 flex items-center">
+                    <p className="font-semibold text-base text-gray-900 group-hover:text-blinkit-green transition-colors duration-200">{selectedStore.name}</p>
+                    <p className="text-sm text-gray-600 flex items-center">
                         {selectedStore.address} <ChevronDownIcon className="h-4 w-4 ml-1" />
                     </p>
                 </div>
@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search for products..."
-                  className="w-full bg-blinkit-gray-100 border border-transparent rounded-lg py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blinkit-green focus:border-transparent transition"
+                  className="w-full bg-white border border-blinkit-gray-200 rounded-lg py-3 pl-12 pr-4 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blinkit-green focus:border-blinkit-green transition-colors duration-200"
                 />
               </form>
             </div>
@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
             {/* Auth, Scan and Cart */}
             <div className="flex items-center ml-4 space-x-4">
                {isAuthenticated ? (
-                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-semibold bg-blinkit-green text-white hover:bg-blinkit-green-dark px-2 py-2 rounded-lg">
+                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-medium bg-blinkit-green text-white hover:bg-blinkit-green-dark px-3 py-2.5 rounded-lg transition-colors duration-200">
                     <UserIcon className="h-6 w-6 mr-1"/>
                     {user?.name?.split(' ')[0]}
                  </a>
