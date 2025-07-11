@@ -92,9 +92,9 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
   const dailyStaples = useMemo(() => products.filter(p => p.category === "Dairy & Eggs" || p.category === "Fresh Food & Produce").slice(0, 10), [products]);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="w-full h-auto mb-8">
-          <img src="https://cdn.dotpe.in/longtail/store-items/8/2024/05/20/19_30_23_968_331206_Blinkit_331206_2024_05_20_11_25_48_682.jpeg" alt="Promotional Banner" className="w-full h-auto rounded-xl object-cover" />
+    <div className="max-w-screen-xl mx-auto  px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full h-auto mb-8 border border-gray-400 rounded-xl">
+          <img src="/Banner/1.png" alt="Promotional Banner" className="w-full h-auto rounded-xl object-cover" />
       </div>
 
       <CategoryGrid categories={categories} onSelectCategory={handleSelectCategory} />

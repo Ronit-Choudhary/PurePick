@@ -19,6 +19,11 @@ export interface Category {
   imageUrl: string;
 }
 
+export interface Banner {
+  name:string;
+  imageUrl: string;
+}
+
 export interface Store {
   id: string;
   name: string;

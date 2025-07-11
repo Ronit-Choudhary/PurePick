@@ -1,5 +1,5 @@
 
-import { Store, Category } from './types';
+import { Store, Category, Banner } from './types';
 export const categories: Category[] = [
   {
     name: 'Fresh Food & Produce',
@@ -43,6 +43,12 @@ export const categories: Category[] = [
   }
 ];
 
+export const banners: Banner[] = [
+  {
+    name: "Promotional Banner",
+    imageUrl: '/Banner/1.png'
+  }
+];
 
 const allProducts = [
   // This is the full list of 100 products from the previous version
@@ -1366,6 +1372,7 @@ const kolkataProducts = allProducts.slice(0, 50).map((p, index) => {
     const newPrice = p.price + (index % 5);
     return { ...p, price: newPrice };
 }).filter(p => p.category !== 'Baby' && p.category !== 'Frozen Foods'); // Let's say Kolkata doesn't stock these yet
+
 
 
 export const stores: Store[] = [
