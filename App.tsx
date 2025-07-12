@@ -105,7 +105,6 @@ const AppShell = () => {
     setScannedProductDetails(null);
     setDetailError(null);
     setScannedBarcode(null);
-    window.dispatchEvent(new CustomEvent('clear-search'));
   }
   
   const getRecommendations = (details: ScannedProductDetails, sourceBarcode: string): Product[] => {
