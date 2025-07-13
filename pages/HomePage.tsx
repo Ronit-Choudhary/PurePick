@@ -130,7 +130,7 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
             </h2>
             <button 
               onClick={clearFilter} 
-              className="text-sm text-blinkit-green font-semibold hover:underline"
+                              className="text-sm text-purepick-green font-semibold hover:underline"
             >
               Clear Filter
             </button>

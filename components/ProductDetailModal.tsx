@@ -99,18 +99,18 @@ const RecommendationCard: React.FC<{ recommendation: Product }> = ({ recommendat
         <p className="text-sm font-bold text-gray-900">₹{recommendation.price}</p>
         <div className="w-20">
           {quantity > 0 ? (
-            <div className="flex items-center justify-center w-full h-8 bg-blinkit-green-light rounded-lg">
+            <div className="flex items-center justify-center w-full h-8 bg-purepick-green-light rounded-lg">
                 <button
                     onClick={() => updateQuantity(recommendation.id, quantity - 1)}
-                    className="px-2 text-blinkit-green hover:bg-gray-200 rounded-l-lg h-full"
+                    className="px-2 text-purepick-green hover:bg-gray-200 rounded-l-lg h-full"
                     aria-label={`Decrease quantity of ${recommendation.name}`}
                 >
                     <MinusIcon className="w-4 h-4" />
                 </button>
-                <span className="px-3 text-sm font-bold text-blinkit-green" aria-live="polite">{quantity}</span>
+                <span className="px-3 text-sm font-bold text-purepick-green" aria-live="polite">{quantity}</span>
                 <button
                     onClick={() => updateQuantity(recommendation.id, quantity + 1)}
-                    className="px-2 text-blinkit-green hover:bg-gray-200 rounded-r-lg h-full"
+                    className="px-2 text-purepick-green hover:bg-gray-200 rounded-r-lg h-full"
                     aria-label={`Increase quantity of ${recommendation.name}`}
                 >
                     <PlusIcon className="w-4 h-4" />
@@ -119,7 +119,7 @@ const RecommendationCard: React.FC<{ recommendation: Product }> = ({ recommendat
           ) : (
             <button
                 onClick={handleAddClick}
-                className="bg-white shadow-md border border-gray-200 text-blinkit-green text-xs font-bold px-4 py-1.5 rounded-lg hover:bg-blinkit-green-light transition-colors"
+                className="bg-white shadow-md border border-gray-200 text-purepick-green text-xs font-bold px-4 py-1.5 rounded-lg hover:bg-purepick-green-light transition-colors"
                 >
                 ADD
             </button>
@@ -138,7 +138,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, 
     if (isLoading) {
       return (
         <div className="text-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blinkit-green mx-auto"></div>
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purepick-green mx-auto"></div>
           <p className="mt-4 text-gray-600">Analyzing barcode with AI...</p>
           <p className="text-sm text-gray-400">Fetching scores & recommendations.</p>
         </div>
@@ -175,7 +175,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, 
         <div className="text-center mb-6">
           <h3 className="text-xl font-bold text-gray-800">{details.productName}</h3>
           <p className="text-sm text-gray-500">{details.brand || 'Unknown Brand'}</p>
-          {details.category && <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-blinkit-green bg-blinkit-green-light px-2 py-0.5 rounded-full inline-block">{details.category}</p>}
+                          {details.category && <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-purepick-green bg-purepick-green-light px-2 py-0.5 rounded-full inline-block">{details.category}</p>}
           {barcode && <p className="text-xs text-gray-400 mt-2 font-mono">EAN/UPC: {barcode}</p>}
         </div>
 
@@ -192,7 +192,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, 
                   <ScoreGauge score={details.nutritionalScore} />
                 </div>
               </div>
-              <div className="mt-4 space-y-3 bg-blinkit-gray-100 p-4 rounded-lg text-xs text-gray-600 text-left">
+                              <div className="mt-4 space-y-3 bg-purepick-gray-100 p-4 rounded-lg text-xs text-gray-600 text-left">
                 <p><span className="font-bold text-gray-700">Eco Justification:</span> {details.ecologicalJustification}</p>
                 <p><span className="font-bold text-gray-700">Nutri Justification:</span> {details.nutritionalJustification}</p>
               </div>
@@ -200,7 +200,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, 
           ) : (
             <>
               <h4 className="font-semibold text-gray-700 mb-2 text-center">Ecological Score</h4>
-              <div className="flex flex-col items-center gap-4 bg-blinkit-gray-100 p-4 rounded-lg">
+                              <div className="flex flex-col items-center gap-4 bg-purepick-gray-100 p-4 rounded-lg">
                 <ScoreGauge score={details.ecologicalScore} />
                 <p className="text-sm text-center text-gray-600">{details.ecologicalJustification}</p>
               </div>
@@ -216,7 +216,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, 
         </div>
 
         {details.recommendations && details.recommendations.length > 0 && (
-          <div className="mt-8 border-t pt-6 bg-blinkit-gray-100 -mx-6 px-6 pb-6">
+                          <div className="mt-8 border-t pt-6 bg-purepick-gray-100 -mx-6 px-6 pb-6">
             <h4 className="text-lg font-bold text-gray-800 mb-4 text-center">Healthier & Greener Alternatives</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {details.recommendations.map((rec) => (

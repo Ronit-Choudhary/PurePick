@@ -67,9 +67,9 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
 
             {/* Location */}
             <div onClick={onLocationClick} className="hidden lg:flex items-center border-l pl-8 cursor-pointer group">
-                <LocationIcon className="h-6 w-6 text-green-900 group-hover:text-blinkit-green" />
+                <LocationIcon className="h-6 w-6 text-green-900 group-hover:text-purepick-green" />
                 <div className="ml-3">
-                    <p className="font-bold text-sm text-gray-800 group-hover:text-blinkit-green transition-colors">{selectedStore.name}</p>
+                    <p className="font-bold text-sm text-gray-800 group-hover:text-purepick-green transition-colors">{selectedStore.name}</p>
                     <p className="text-xs text-gray-500 flex items-center">
                         {selectedStore.address} <ChevronDownIcon className="h-4 w-4 ml-1" />
                     </p>
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
                   value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search for products..."
-                  className="w-full bg-blinkit-gray-100 border border-transparent rounded-lg py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blinkit-green focus:border-transparent transition"
+                  className="w-full bg-purepick-gray-100 border border-transparent rounded-lg py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-purepick-green focus:border-transparent transition"
                 />
               </form>
             </div>
@@ -95,48 +95,48 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
             {/* Auth, Scan and Cart */}
             <div className="flex items-center ml-6 gap-3 md:gap-5">
                {isAuthenticated ? (
-                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-semibold bg-blinkit-green text-white hover:bg-blinkit-green-dark px-2 py-2 rounded-lg transition-transform duration-150 hover:scale-105 hover:shadow-md">
+                 <a href="/profile" onClick={(e) => handleNavClick(e, '/profile')} className="flex items-center text-sm font-semibold bg-purepick-green text-white hover:bg-purepick-green-dark px-2 py-2 rounded-lg transition-transform duration-150 hover:scale-105 hover:shadow-md">
                     <UserIcon className="h-6 w-6 mr-1"/>
                     {user?.name?.split(' ')[0]}
                  </a>
                ) : (
-                <a href="/login" onClick={(e) => handleNavClick(e, '/login')} className="text-sm font-semibold text-gray-700 hover:text-blinkit-green transition-transform duration-150 hover:scale-105 hover:shadow-md">Login</a>
+                <a href="/login" onClick={(e) => handleNavClick(e, '/login')} className="text-sm font-semibold text-gray-700 hover:text-purepick-green transition-transform duration-150 hover:scale-105 hover:shadow-md">Login</a>
                )}
 
               <button
                 onClick={() => navigate('/wishlist')}
-                className="relative p-2 rounded-full bg-blinkit-green text-white hover:bg-blinkit-green-dark transition-colors flex items-center justify-center transition-transform duration-150 hover:scale-110 hover:shadow-lg"
+                className="relative p-2 rounded-full bg-purepick-green text-white hover:bg-purepick-green-dark transition-colors flex items-center justify-center transition-transform duration-150 hover:scale-110 hover:shadow-lg"
                 aria-label="Wishlist"
               >
                 <HeartIcon className="h-6 w-6" />
                 {wishlist.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-purepick-yellow text-purepick-green-dark text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
                     {wishlist.length}
                   </span>
                 )}
               </button>
 
-              <button onClick={onScanClick} className="p-2 rounded-full bg-blinkit-green text-white hover:bg-blinkit-green-dark transition-colors flex items-center justify-center transition-transform duration-150 hover:scale-110 hover:shadow-lg" aria-label="Scan product">
+              <button onClick={onScanClick} className="p-2 rounded-full bg-purepick-green text-white hover:bg-purepick-green-dark transition-colors flex items-center justify-center transition-transform duration-150 hover:scale-110 hover:shadow-lg" aria-label="Scan product">
                   <QrCodeIcon className="h-6 w-6"/>
                </button>
 
               <button
                 onClick={onCartClick}
-                className="flex items-center bg-blinkit-green text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green-dark transition-colors duration-200 relative transition-transform duration-150 hover:scale-105 hover:shadow-md"
+                className="flex items-center bg-purepick-green text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-purepick-green-dark transition-colors duration-200 relative transition-transform duration-150 hover:scale-105 hover:shadow-md"
               >
                 <CartIcon className="h-5 w-5 mr-2" />
                 <span>Cart</span>
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-2 -right-2 bg-purepick-yellow text-purepick-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
               </button>
               {/* Leaderboard */}
-              <button onClick={() => navigate('/leaderboard')} className="flex items-center bg-blinkit-green text-white hover:bg-blinkit-green-dark border border-blinkit-green px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blinkit-green hover:text-white transition-colors duration-200 relative transition-transform duration-150 hover:scale-105 hover:shadow-md">
+              <button onClick={() => navigate('/leaderboard')} className="flex items-center bg-purepick-green text-white hover:bg-purepick-green-dark border border-purepick-green px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-purepick-green hover:text-white transition-colors duration-200 relative transition-transform duration-150 hover:scale-105 hover:shadow-md">
                 <TrophyIcon className="h-5 w-5 mr-2" />
                 <span>Leaderboard</span>
-                <span className="absolute -top-2 -right-2 bg-blinkit-yellow text-blinkit-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-purepick-yellow text-purepick-green-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   #{3}
                 </span>
               </button>
@@ -151,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ onCartClick, onScanClick, onLocationCli
                     value={searchQuery}
                     onChange={handleSearchChange}
                     placeholder="Search for products..."
-                    className="w-full bg-blinkit-gray-100 border border-transparent rounded-lg py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blinkit-green focus:border-transparent transition"
+                    className="w-full bg-purepick-gray-100 border border-transparent rounded-lg py-3 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-purepick-green focus:border-transparent transition"
                 />
             </form>
         </div>

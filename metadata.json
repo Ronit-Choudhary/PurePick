@@ -1,7 +1,7 @@
 
 {
-  "name": "Blinkit Clone",
-  "description": "A fully functional clone of the Blinkit web application, focusing on a fast and seamless grocery shopping experience. Built with React, TypeScript, and Tailwind CSS.",
+  "name": "PurePick",
+  "description": "A fully functional PurePick web application, focusing on a fast and seamless grocery shopping experience. Built with React, TypeScript, and Tailwind CSS.",
   "requestFramePermissions": [
     "camera",
     "geolocation"

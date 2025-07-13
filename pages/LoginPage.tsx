@@ -33,7 +33,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-blinkit-gray-100">
+        <div className="flex items-center justify-center min-h-screen bg-purepick-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
                     <div className="flex justify-end">
       <button onClick={() => navigate('/')} className="p-1 rounded-full hover:bg-gray-100">
@@ -64,7 +64,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blinkit-green focus:border-blinkit-green"
+                            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purepick-green focus:border-purepick-green"
                         />
                     </div>
                     <div>
@@ -77,7 +77,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blinkit-green focus:border-blinkit-green"
+                            className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purepick-green focus:border-purepick-green"
                         />
                     </div>
                     {error && <p className="text-sm text-red-600">{error}</p>}
@@ -85,7 +85,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blinkit-green hover:bg-blinkit-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blinkit-green disabled:opacity-50"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purepick-green hover:bg-purepick-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purepick-green disabled:opacity-50"
                         >
                             {isLoading ? 'Signing in...' : 'Sign in'}
                         </button>
@@ -93,7 +93,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ navigate }) => {
                 </form>
                  <p className="text-sm text-center text-gray-600">
                     Don't have an account?{' '}
-                    <a href="/register" onClick={(e) => handleNavClick(e, '/register')} className="font-medium text-blinkit-green hover:underline">
+                    <a href="/register" onClick={(e) => handleNavClick(e, '/register')} className="font-medium text-purepick-green hover:underline">
                         Register
                     </a>
                 </p>

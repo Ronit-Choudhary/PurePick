@@ -94,12 +94,12 @@ const ScannerModal: React.FC<ScannerModalProps> = ({ isOpen, onClose, onScanSucc
                 value={manualBarcode}
                 onChange={(e) => setManualBarcode(e.target.value)}
                 placeholder="e.g. 123456789012"
-                className="flex-grow bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blinkit-green transition"
+                className="flex-grow bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-purepick-green transition"
                 aria-label="Enter barcode manually"
             />
             <button
                 type="submit"
-                className="bg-blinkit-green text-white font-bold px-6 py-2 rounded-lg hover:bg-blinkit-green-dark transition-colors disabled:opacity-50"
+                className="bg-purepick-green text-white font-bold px-6 py-2 rounded-lg hover:bg-purepick-green-dark transition-colors disabled:opacity-50"
                 disabled={!manualBarcode.trim()}
             >
                 Search

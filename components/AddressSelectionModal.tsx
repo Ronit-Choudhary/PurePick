@@ -37,7 +37,7 @@ const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({ isOpen, o
                     <button
                         key={address.id}
                         onClick={() => handleSelect(address.id)}
-                        className={`w-full text-left p-4 border rounded-lg transition-all flex gap-3 items-start ${user.selectedAddressId === address.id ? 'border-blinkit-green ring-2 ring-blinkit-green bg-blinkit-green-light' : 'border-gray-200 hover:border-gray-400'}`}
+                        className={`w-full text-left p-4 border rounded-lg transition-all flex gap-3 items-start ${user.selectedAddressId === address.id ? 'border-purepick-green ring-2 ring-purepick-green bg-purepick-green-light' : 'border-gray-200 hover:border-gray-400'}`}
                     >
                          <LocationIcon className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
                         <div>

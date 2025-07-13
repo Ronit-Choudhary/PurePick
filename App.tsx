@@ -72,7 +72,7 @@ const AppShell = () => {
 
   useEffect(() => {
     // Show location modal on first visit
-    if (!localStorage.getItem('blinkit_store_id')) {
+    if (!localStorage.getItem('purepick_store_id')) {
         setLocationModalOpen(true);
     }
 

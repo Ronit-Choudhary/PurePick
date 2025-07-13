@@ -38,24 +38,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const updateUserInMasterList = (updatedUser: User) => {
     try {
-        const allUsers = JSON.parse(localStorage.getItem('blinkit_users') || '[]');
+        const allUsers = JSON.parse(localStorage.getItem('purepick_users') || '[]');
         const userIndex = allUsers.findIndex((u: any) => u.email === updatedUser.email);
         if (userIndex > -1) {
             allUsers[userIndex] = { ...allUsers[userIndex], ...updatedUser };
-            localStorage.setItem('blinkit_users', JSON.stringify(allUsers));
+            localStorage.setItem('purepick_users', JSON.stringify(allUsers));
         }
     } catch(e) { console.error("Failed to update user in master list", e); }
   }
   
   const saveUser = (userToSave: User) => {
       setUser(userToSave);
-      localStorage.setItem('blinkit_user', JSON.stringify(userToSave));
+      localStorage.setItem('purepick_user', JSON.stringify(userToSave));
       updateUserInMasterList(userToSave);
   }
 
   useEffect(() => {
     try {
-      const storedUser = localStorage.getItem('blinkit_user');
+      const storedUser = localStorage.getItem('purepick_user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         // Ensure all fields exist for backwards compatibility and include extra fields
@@ -73,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     } catch (error) {
       console.error("Failed to parse user from localStorage", error);
-      localStorage.removeItem('blinkit_user');
+      localStorage.removeItem('purepick_user');
     } finally {
       setAuthLoading(false);
     }
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const loadOrders = (userEmail: string) => {
     try {
-      const allOrders = JSON.parse(localStorage.getItem('blinkit_orders') || '{}');
+      const allOrders = JSON.parse(localStorage.getItem('purepick_orders') || '{}');
       setOrders(allOrders[userEmail] || []);
     } catch (error) {
       console.error("Failed to load orders from localStorage", error);
@@ -90,9 +90,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const saveOrders = (userEmail: string, newOrders: Order[]) => {
       try {
-        const allOrders = JSON.parse(localStorage.getItem('blinkit_orders') || '{}');
+        const allOrders = JSON.parse(localStorage.getItem('purepick_orders') || '{}');
         allOrders[userEmail] = newOrders;
-        localStorage.setItem('blinkit_orders', JSON.stringify(allOrders));
+        localStorage.setItem('purepick_orders', JSON.stringify(allOrders));
       } catch (error) {
           console.error("Failed to save orders to localStorage", error);
       }
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         try {
-            const users = JSON.parse(localStorage.getItem('blinkit_users') || '[]');
+            const users = JSON.parse(localStorage.getItem('purepick_users') || '[]');
             const userInDb = users.find((u: any) => u.email === email && u.password === password);
 
             if (userInDb) {
@@ -130,7 +130,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return new Promise((resolve, reject) => {
           setTimeout(() => {
             try {
-              let users = JSON.parse(localStorage.getItem('blinkit_users') || '[]');
+              let users = JSON.parse(localStorage.getItem('purepick_users') || '[]');
               const userExists = users.some((u: any) => u.email === email);
               if (userExists) {
                 reject(new Error('User with this email already exists.'));
@@ -139,7 +139,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               const userData: User = { name, email, walletBalance: 0, addresses: [], selectedAddressId: null };
               const newUserForDb = { ...userData, password }; // Store password only in the master list
               users.push(newUserForDb);
-              localStorage.setItem('blinkit_users', JSON.stringify(users));
+              localStorage.setItem('purepick_users', JSON.stringify(users));
               
               saveUser(userData);
               setOrders([]); // New user has no orders
@@ -152,7 +152,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = () => {
-    localStorage.removeItem('blinkit_user');
+    localStorage.removeItem('purepick_user');
     setUser(null);
     setOrders([]);
   };

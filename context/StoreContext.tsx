@@ -29,7 +29,7 @@ const getDistanceInMiles = (lat1: number, lon1: number, lat2: number, lon2: numb
 
 export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedStore, setSelectedStore] = useState<Store>(() => {
-    const savedStoreId = localStorage.getItem('blinkit_store_id');
+    const savedStoreId = localStorage.getItem('purepick_store_id');
     return allStores.find(s => s.id === savedStoreId) || allStores[0];
   });
 
@@ -37,7 +37,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const store = allStores.find(s => s.id === storeId);
     if (store) {
       setSelectedStore(store);
-      localStorage.setItem('blinkit_store_id', store.id);
+      localStorage.setItem('purepick_store_id', store.id);
     }
   };
   

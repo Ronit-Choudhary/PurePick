@@ -17,7 +17,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({ categories, onSelectCategor
             alt={category.name}
             className="w-full h-auto object-cover rounded-lg transition-transform duration-200 group-hover:scale-105"
           />
-          <p className="mt-2 text-sm font-semibold text-gray-700 group-hover:text-blinkit-green">{category.name}</p>
+                          <p className="mt-2 text-sm font-semibold text-gray-700 group-hover:text-purepick-green">{category.name}</p>
         </div>
       ))}
     </div>
