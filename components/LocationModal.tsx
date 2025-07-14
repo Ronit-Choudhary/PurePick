@@ -145,7 +145,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
         <button
             onClick={handleDetectLocation}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 mb-6 font-bold text-white bg-blinkit-green rounded-lg hover:bg-blinkit-green-dark transition-colors disabled:opacity-70"
+                            className="w-full flex items-center justify-center gap-2 px-4 py-3 mb-6 font-bold text-white bg-purepick-green rounded-lg hover:bg-purepick-green-dark transition-colors disabled:opacity-70"
         >
             {isLoading ? (
               <>
@@ -178,7 +178,7 @@ const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose }) => {
               <button
                 key={store.id}
                 onClick={() => handleManualStoreSelect(store.id)}
-                className={`w-full text-left p-4 border rounded-lg transition-all ${selectedStore.id === store.id ? 'border-blinkit-green ring-2 ring-blinkit-green bg-blinkit-green-light' : 'border-gray-200 hover:border-gray-400'}`}
+                className={`w-full text-left p-4 border rounded-lg transition-all ${selectedStore.id === store.id ? 'border-purepick-green ring-2 ring-purepick-green bg-purepick-green-light' : 'border-gray-200 hover:border-gray-400'}`}
               >
                 <p className="font-bold text-gray-800">{store.name}</p>
                 <p className="text-sm text-gray-500">{store.address}</p>

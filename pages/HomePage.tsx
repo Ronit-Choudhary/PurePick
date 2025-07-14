@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductCarousel from '../components/ProductCarousel';
 import ProductCard from '../components/ProductCard';
@@ -15,6 +15,7 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
 
   // When the store's products change, reset the view
   useEffect(() => {
@@ -60,6 +61,16 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
           product.name.toLowerCase().includes(lowercasedQuery)
       );
       setFilteredProducts(results);
+      
+      // Scroll to search results after a short delay to ensure DOM is updated
+      setTimeout(() => {
+        if (searchResultsRef.current) {
+          searchResultsRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 100);
     }
   };
   
@@ -69,6 +80,16 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
     setSelectedCategory(categoryName);
     const results = products.filter(p => p.category === categoryName);
     setFilteredProducts(results);
+    
+    // Scroll to search results after a short delay to ensure DOM is updated
+    setTimeout(() => {
+      if (searchResultsRef.current) {
+        searchResultsRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
   };
   
   const clearFilter = () => {
@@ -102,14 +123,14 @@ const HomePage: React.FC<HomePageProps> = ({ onProductSelect }) => {
       <div className="my-12 border-t border-gray-200"></div>
 
       {searchQuery || selectedCategory ? (
-        <div>
+        <div ref={searchResultsRef}>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
               {searchQuery ? `Search Results for "${searchQuery}"` : `Category: ${selectedCategory}`}
             </h2>
             <button 
               onClick={clearFilter} 
-              className="text-sm text-blinkit-green font-semibold hover:underline"
+                              className="text-sm text-purepick-green font-semibold hover:underline"
             >
               Clear Filter
             </button>

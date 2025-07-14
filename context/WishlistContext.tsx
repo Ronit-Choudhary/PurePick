@@ -17,7 +17,7 @@ export const WishlistProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [wishlist, setWishlist] = useState<Product[]>([]);
 
   // Helper to get the localStorage key for the current store
-  const getKey = () => `blinkit_wishlist_${selectedStore.id}`;
+  const getKey = () => `purepick_wishlist_${selectedStore.id}`;
 
   // Load wishlist for the current store
   useEffect(() => {

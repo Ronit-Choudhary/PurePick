@@ -33,14 +33,14 @@ const CartItemCard: React.FC<{ item: CartItem }> = ({ item }) => {
       <div className="flex items-center border border-gray-300 rounded-lg">
         <button
           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-          className="p-1 text-blinkit-green"
+          className="p-1 text-purepick-green"
         >
           <MinusIcon className="w-4 h-4"/>
         </button>
         <span className="px-2 text-sm">{item.quantity}</span>
         <button
           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-          className="p-1 text-blinkit-green"
+          className="p-1 text-purepick-green"
         >
           <PlusIcon className="w-4 h-4"/>
         </button>
@@ -135,7 +135,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
         onClick={onClose}
       />
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-blinkit-gray-100 z-50 transform transition-transform ${
+        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-purepick-gray-100 z-50 transform transition-transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } duration-300 ease-in-out flex flex-col`}
       >
@@ -160,14 +160,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
                                 <p className="text-xs text-gray-500">{selectedAddress.details}</p>
                             </div>
                         </div>
-                        <button onClick={onSelectAddressClick} className="text-sm font-semibold text-blinkit-green hover:underline flex-shrink-0">
+                        <button onClick={onSelectAddressClick} className="text-sm font-semibold text-purepick-green hover:underline flex-shrink-0">
                             Change
                         </button>
                     </div>
                 ) : (
                     <div className="text-center py-2 border-2 border-dashed rounded-lg">
                         <p className="text-sm text-gray-600 mb-2">Please select an address for delivery.</p>
-                        <button onClick={onSelectAddressClick} className="px-4 py-1.5 bg-blinkit-green text-white font-semibold rounded-lg text-sm">
+                        <button onClick={onSelectAddressClick} className="px-4 py-1.5 bg-purepick-green text-white font-semibold rounded-lg text-sm">
                             Select Address
                         </button>
                     </div>
@@ -205,11 +205,11 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
                         id="useWallet" 
                         checked={applyWallet}
                         onChange={(e) => setApplyWallet(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-blinkit-green focus:ring-blinkit-green"
+                        className="h-4 w-4 rounded border-gray-300 text-purepick-green focus:ring-purepick-green"
                         />
                         <span className="ml-3 text-sm font-semibold text-gray-700">Apply Wallet Balance</span>
                     </label>
-                    <span className="text-sm font-bold text-blinkit-green">₹{user.walletBalance.toFixed(2)}</span>
+                    <span className="text-sm font-bold text-purepick-green">₹{user.walletBalance.toFixed(2)}</span>
                     </div>
                     {applyWallet && (
                     <p className="text-right text-xs text-green-600 mt-1">- ₹{redeemedAmount.toFixed(2)} applied</p>
@@ -252,7 +252,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, navigate, onSe
             
           <button 
             onClick={handleCheckout}
-            className="w-full bg-blinkit-green text-white font-bold py-3 rounded-lg flex justify-between items-center hover:bg-blinkit-green-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+            className="w-full bg-purepick-green text-white font-bold py-3 rounded-lg flex justify-between items-center hover:bg-purepick-green-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
             disabled={cartItems.length === 0 || !selectedAddress}
           >
             <span>Proceed to Checkout</span>

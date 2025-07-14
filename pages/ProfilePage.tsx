@@ -58,7 +58,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
 const AddressCard: React.FC<{address: Address, isSelected: boolean, onSelect: () => void, onRemove: () => void}> = 
 ({ address, isSelected, onSelect, onRemove }) => {
     return (
-        <div className={`border rounded-lg p-4 relative ${isSelected ? 'border-blinkit-green ring-2 ring-blinkit-green' : 'border-gray-200'}`}>
+        <div className={`border rounded-lg p-4 relative ${isSelected ? 'border-purepick-green ring-2 ring-purepick-green' : 'border-gray-200'}`}>
             <div className="flex gap-3">
                 <LocationIcon className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
                 <div>
@@ -69,7 +69,7 @@ const AddressCard: React.FC<{address: Address, isSelected: boolean, onSelect: ()
                         <button 
                             onClick={onSelect} 
                             disabled={isSelected}
-                            className="text-sm font-semibold text-white bg-blinkit-green px-3 py-1 rounded-md disabled:bg-green-200 disabled:text-green-500 disabled:cursor-not-allowed hover:bg-blinkit-green-dark transition-colors"
+                            className="text-sm font-semibold text-white bg-purepick-green px-3 py-1 rounded-md disabled:bg-green-200 disabled:text-green-500 disabled:cursor-not-allowed hover:bg-purepick-green-dark transition-colors"
                         >
                             {isSelected ? 'Selected' : 'Select'}
                         </button>
@@ -103,14 +103,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
       phone: editPhone,
       gender: editGender,
     };
-    localStorage.setItem('blinkit_user', JSON.stringify(updatedUser));
+    localStorage.setItem('purepick_user', JSON.stringify(updatedUser));
     // Also update in master list
     try {
-      const allUsers = JSON.parse(localStorage.getItem('blinkit_users') || '[]');
+      const allUsers = JSON.parse(localStorage.getItem('purepick_users') || '[]');
       const idx = allUsers.findIndex((u: any) => u.email === user.email);
       if (idx > -1) {
         allUsers[idx] = { ...allUsers[idx], ...updatedUser };
-        localStorage.setItem('blinkit_users', JSON.stringify(allUsers));
+        localStorage.setItem('purepick_users', JSON.stringify(allUsers));
       }
     } catch {}
     window.location.reload(); // Quick way to refresh context
@@ -135,15 +135,15 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
             <div className="space-y-4">
               <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                      <input type="text" value={editName} onChange={e => setEditName(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green" />
+                      <input type="text" value={editName} onChange={e => setEditName(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-purepick-green focus:border-purepick-green" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-                      <input type="tel" value={editPhone} onChange={e => setEditPhone(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green" placeholder="+91-XXXXXXXXXX" />
+                      <input type="tel" value={editPhone} onChange={e => setEditPhone(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-purepick-green focus:border-purepick-green" placeholder="+91-XXXXXXXXXX" />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
-                      <select value={editGender} onChange={e => setEditGender(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-blinkit-green focus:border-blinkit-green">
+                      <select value={editGender} onChange={e => setEditGender(e.target.value)} className="w-full border rounded-lg px-3 py-2 focus:ring-purepick-green focus:border-purepick-green">
                         <option value="">Select</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -153,16 +153,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
                   </div>
                   <div className="flex justify-end gap-3 mt-8">
                     <button onClick={() => setEditOpen(false)} className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200">Cancel</button>
-                    <button onClick={handleEditSave} className="px-4 py-2 rounded-lg bg-blinkit-green text-white font-semibold hover:bg-blinkit-green-dark">Save</button>
+                    <button onClick={handleEditSave} className="px-4 py-2 rounded-lg bg-purepick-green text-white font-semibold hover:bg-purepick-green-dark">Save</button>
                   </div>
                 </div>
               </div>
             )}
             <div className="bg-white rounded-xl shadow-lg p-0 w-full max-w-2xl flex flex-col md:flex-row items-stretch overflow-hidden border border-gray-200">
               {/* Avatar Section */}
-              <div className="flex flex-col items-center justify-center bg-blinkit-green/90 p-8 md:w-1/3">
+              <div className="flex flex-col items-center justify-center bg-purepick-green/90 p-8 md:w-1/3">
                 <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center mb-3 shadow">
-                  <span className="text-4xl font-bold text-blinkit-green">{user?.name?.[0] || '?'}</span>
+                  <span className="text-4xl font-bold text-purepick-green">{user?.name?.[0] || '?'}</span>
                 </div>
                 <span className="text-white font-semibold text-lg">My Profile</span>
               </div>
@@ -187,7 +187,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-8">
-                  <button className="px-5 py-2 bg-blinkit-green text-white font-semibold rounded-lg hover:bg-blinkit-green-dark transition-colors shadow" onClick={() => setEditOpen(true)}>Edit Profile</button>
+                  <button className="px-5 py-2 bg-purepick-green text-white font-semibold rounded-lg hover:bg-purepick-green-dark transition-colors shadow" onClick={() => setEditOpen(true)}>Edit Profile</button>
                <button 
                   onClick={handleLogout}
                     className="px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors shadow"
@@ -220,7 +220,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
           <div>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-gray-800">My Addresses</h2>
-              <button onClick={onAddAddressClick} className="px-4 py-2 bg-blinkit-green text-white font-semibold rounded-lg hover:bg-blinkit-green-dark transition-colors text-sm">
+              <button onClick={onAddAddressClick} className="px-4 py-2 bg-purepick-green text-white font-semibold rounded-lg hover:bg-purepick-green-dark transition-colors text-sm">
                 Add New Address
               </button>
             </div>
@@ -262,7 +262,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
         return (
             <div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">My Wallet</h2>
-                <div className="bg-gradient-to-br from-blinkit-green to-green-700 text-white p-6 rounded-xl shadow-lg mb-8 flex justify-between items-center">
+                <div className="bg-gradient-to-br from-purepick-green to-green-700 text-white p-6 rounded-xl shadow-lg mb-8 flex justify-between items-center">
                     <div>
                         <p className="text-sm opacity-80 uppercase tracking-wider">Eco Rewards Balance</p>
                         <p className="text-4xl font-bold mt-1">₹{user?.walletBalance.toFixed(2)}</p>
@@ -285,7 +285,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
                                 {rewardTiers.map(tier => (
                                     <tr key={tier.score} className="border-b">
                                         <td className="p-2">{tier.score}</td>
-                                        <td className="p-2 font-bold text-blinkit-green">{tier.reward}</td>
+                                        <td className="p-2 font-bold text-purepick-green">{tier.reward}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -326,7 +326,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ navigate, onAddAddressClick }
       onClick={() => setActiveSection(section)}
       className={`w-full text-left px-4 py-3 rounded-lg font-semibold transition-colors duration-200 ${
         activeSection === section 
-          ? 'bg-blinkit-green-light text-blinkit-green' 
+          ? 'bg-purepick-green-light text-purepick-green' 
           : 'text-gray-700 hover:bg-gray-100'
       }`}
     >

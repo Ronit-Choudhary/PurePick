@@ -72,7 +72,7 @@ const AppShell = () => {
 
   useEffect(() => {
     // Show location modal on first visit
-    if (!localStorage.getItem('blinkit_store_id')) {
+    if (!localStorage.getItem('purepick_store_id')) {
         setLocationModalOpen(true);
     }
 
@@ -105,7 +105,6 @@ const AppShell = () => {
     setScannedProductDetails(null);
     setDetailError(null);
     setScannedBarcode(null);
-    window.dispatchEvent(new CustomEvent('clear-search'));
   }
   
   const getRecommendations = (details: ScannedProductDetails, sourceBarcode: string): Product[] => {

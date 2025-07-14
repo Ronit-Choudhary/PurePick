@@ -106,7 +106,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose }) => {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blinkit-green focus:border-blinkit-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purepick-green focus:border-purepick-green"
               placeholder="Home"
             />
           </div>
@@ -118,7 +118,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose }) => {
               value={fullAddress}
               onChange={handleAddressChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blinkit-green focus:border-blinkit-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purepick-green focus:border-purepick-green"
               placeholder="123 Main St, Anytown, State, 12345"
               autoComplete="off"
             />
@@ -126,7 +126,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose }) => {
             {suggestions.length > 0 && (
               <ul className="bg-white border border-gray-200 rounded-md shadow absolute z-50 w-full mt-1 max-h-56 overflow-y-auto">
                 {suggestions.map((s) => (
-                  <li key={s.id} className="px-4 py-2 hover:bg-blinkit-green-light cursor-pointer" onClick={() => handleSuggestionClick(s)}>
+                  <li key={s.id} className="px-4 py-2 hover:bg-purepick-green-light cursor-pointer" onClick={() => handleSuggestionClick(s)}>
                     {s.place_name}
                   </li>
                 ))}
@@ -143,7 +143,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose }) => {
               type="text"
               value={details}
               onChange={(e) => setDetails(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blinkit-green focus:border-blinkit-green"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purepick-green focus:border-purepick-green"
               placeholder="Apt 4B, Near City Park"
             />
           </div>
@@ -153,7 +153,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose }) => {
           <div className="pt-4 flex justify-end">
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-2 bg-blinkit-green text-white font-semibold rounded-lg hover:bg-blinkit-green-dark transition-colors"
+              className="w-full sm:w-auto px-6 py-2 bg-purepick-green text-white font-semibold rounded-lg hover:bg-purepick-green-dark transition-colors"
             >
               Save Address
             </button>

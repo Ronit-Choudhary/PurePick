@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   const categories = ["Fruits & Vegetables", "Dairy & Eggs", "Snacks", "Beverages", "Bakery", "Household"];
 
   return (
-    <footer className="bg-blinkit-green-dark text-white">
+            <footer className="bg-purepick-green-dark text-white">
       <div className="max-w-screen-xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
         {/* Categories */}
